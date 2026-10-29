@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>App Security Lock</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: #1e293b; padding: 30px 20px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { margin-bottom: 10px; color: #f8fafc; font-size: 24px; }
+        p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin-bottom: 25px; border: 2px solid #334155; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .input-group { margin-bottom: 20px; }
+        input[type="password"] { width: 100%; padding: 15px; font-size: 20px; text-align: center; letter-spacing: 5px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; outline: none; transition: border-color 0.3s; }
+        input[type="password"]:focus { border-color: #3b82f6; }
+        .btn { width: 100%; padding: 14px; font-weight: bold; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 12px; transition: transform 0.1s, opacity 0.2s; }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: #FF5A00; color: #fff; } /* Matching your app's ASL Sports Orange */
+        .btn-primary:hover { background: #e04f00; }
+        .btn-secondary { background: #334155; color: #e2e8f0; }
+        .btn-secondary:hover { background: #475569; }
+        .error-msg { color: #ef4444; font-size: 14px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>App Security Lock</h2>
+        <p>Enter today's 4-digit password to access the app.</p>
+
+        <!-- Demo Video Placeholder (Replace SRC with your YouTube embed link) -->
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4?rel=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="pinInput" placeholder="••••" maxlength="4" inputmode="numeric">
+            <div id="errorText" class="error-msg">Incorrect Password! Please try again.</div>
+        </div>
+
+        <button class="btn btn-primary" onclick="verifyPassword()">Enter App</button>
+        <button class="btn btn-secondary" onclick="getPassword()">Get Password</button>
+    </div>
+
+    <script>
+        // CHANGE THIS VALUE EVERY DAY ON YOUR SERVER
+        const DAILY_PASSWORD = "1234";
+
+        function verifyPassword() {
+            const pin = document.getElementById("pinInput").value;
+            const errorText = document.getElementById("errorText");
+
+            if (pin === DAILY_PASSWORD) {
+                errorText.style.display = "none";
+                // This triggers the Smali code to close the dialog and save the date!
+                window.location.href = "app://unlock"; 
+            } else {
+                errorText.style.display = "block";
+                document.getElementById("pinInput").value = "";
+            }
+        }
+
+        function getPassword() {
+            // Replace this with the link to where users can find the password (Telegram, Website, etc.)
+            window.open("https://t.me/your_telegram_channel", "_blank");
+        }
+    </script>
+
+</body>
+</html>
