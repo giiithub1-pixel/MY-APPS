@@ -3,70 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>App Security Lock</title>
+    <title>ASL Sports | Security Lock</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: #1e293b; padding: 30px 20px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { margin-bottom: 10px; color: #f8fafc; font-size: 24px; }
-        p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin-bottom: 25px; border: 2px solid #334155; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { 
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); 
+            color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; 
+        }
+        .card { 
+            background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            padding: 35px 25px; border-radius: 20px; width: 92%; max-width: 420px; text-align: center; 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.1);
+        }
+        .header { margin-bottom: 20px; }
+        .header h2 { font-size: 26px; font-weight: 700; color: #f8fafc; letter-spacing: 1px; }
+        .header h2 span { color: #FF5A00; }
+        .header p { color: #94a3b8; font-size: 14px; margin-top: 5px; }
+        .video-container { 
+            position: relative; padding-bottom: 56.25%; height: 0; border-radius: 12px; 
+            margin-bottom: 25px; border: 2px solid rgba(255, 90, 0, 0.3); overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .input-group { margin-bottom: 20px; }
-        input[type="password"] { width: 100%; padding: 15px; font-size: 20px; text-align: center; letter-spacing: 5px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; outline: none; transition: border-color 0.3s; }
-        input[type="password"]:focus { border-color: #3b82f6; }
-        .btn { width: 100%; padding: 14px; font-weight: bold; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 12px; transition: transform 0.1s, opacity 0.2s; }
-        .btn:active { transform: scale(0.98); }
-        .btn-primary { background: #FF5A00; color: #fff; } /* Matching your app's ASL Sports Orange */
-        .btn-primary:hover { background: #e04f00; }
-        .btn-secondary { background: #334155; color: #e2e8f0; }
-        .btn-secondary:hover { background: #475569; }
-        .error-msg { color: #ef4444; font-size: 14px; margin-top: 10px; display: none; }
+        .input-group { margin-bottom: 25px; position: relative; }
+        input[type="password"] { 
+            width: 100%; padding: 16px; font-size: 24px; font-weight: bold; text-align: center; 
+            letter-spacing: 12px; border-radius: 12px; border: 2px solid #334155; 
+            background: rgba(15, 23, 42, 0.8); color: #fff; outline: none; transition: all 0.3s ease; 
+        }
+        input[type="password"]:focus { border-color: #FF5A00; box-shadow: 0 0 15px rgba(255, 90, 0, 0.3); }
+        .btn { 
+            width: 100%; padding: 16px; font-weight: 600; font-size: 16px; border: none; 
+            border-radius: 12px; cursor: pointer; margin-bottom: 15px; transition: all 0.2s ease; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn:active { transform: translateY(2px); }
+        .btn-primary { 
+            background: linear-gradient(135deg, #FF5A00, #e04f00); color: #fff; 
+            box-shadow: 0 10px 20px -10px #FF5A00;
+        }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .error-msg { 
+            color: #ef4444; font-size: 14px; margin-top: 10px; font-weight: 500;
+            opacity: 0; transition: opacity 0.3s; 
+        }
+        
+        /* Shake Animation for Wrong Password */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .shake { animation: shake 0.5s; border-color: #ef4444 !important; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>App Security Lock</h2>
-        <p>Enter today's 4-digit password to access the app.</p>
+    <div class="card">
+        <div class="header">
+            <h2>ASL <span>SPORTS</span></h2>
+            <p>Enter today's secure PIN to unlock the app</p>
+        </div>
 
-        <!-- Demo Video Placeholder (Replace SRC with your YouTube embed link) -->
+        <!-- Replace SRC with your YouTube embed link -->
         <div class="video-container">
             <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4?rel=0" frameborder="0" allowfullscreen></iframe>
         </div>
 
         <div class="input-group">
-            <input type="password" id="pinInput" placeholder="••••" maxlength="4" inputmode="numeric">
-            <div id="errorText" class="error-msg">Incorrect Password! Please try again.</div>
+            <input type="password" id="pinInput" placeholder="Enter Password" maxlength="4" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <div id="errorText" class="error-msg">Incorrect Password! Try again.</div>
         </div>
 
-        <button class="btn btn-primary" onclick="verifyPassword()">Enter App</button>
-        <button class="btn btn-secondary" onclick="getPassword()">Get Password</button>
+        <button class="btn btn-primary" onclick="verifyPassword()">Unlock App</button>
+        <button class="btn btn-secondary" onclick="getPassword()">Get Today's Password</button>
     </div>
 
     <script>
-        // CHANGE THIS VALUE EVERY DAY ON YOUR SERVER
-        const DAILY_PASSWORD = "1234";
+        // Automatic Daily Password Generator Logic
+        function generateDailyPIN() {
+            const d = new Date();
+            const year = d.getFullYear();
+            const month = d.getMonth() + 1;
+            const day = d.getDate();
+            // Mathematical formula to generate a unique 4-digit number every day
+            const hash = (year * 31 + month * 12 + day * 47) * 839;
+            return ((hash % 9000) + 1000).toString(); // Always returns 1000-9999
+        }
 
         function verifyPassword() {
-            const pin = document.getElementById("pinInput").value;
+            const pinInput = document.getElementById("pinInput");
+            const pin = pinInput.value;
             const errorText = document.getElementById("errorText");
+            const correctPIN = generateDailyPIN();
 
-            if (pin === DAILY_PASSWORD) {
-                errorText.style.display = "none";
-                // This triggers the Smali code to close the dialog and save the date!
+            if (pin === correctPIN) {
+                // SUCCESS! Send command to Smali to unlock the app
                 window.location.href = "app://unlock"; 
             } else {
-                errorText.style.display = "block";
-                document.getElementById("pinInput").value = "";
+                // FAIL! Show error and shake animation
+                errorText.style.opacity = "1";
+                pinInput.classList.add("shake");
+                setTimeout(() => { pinInput.classList.remove("shake"); }, 500);
+                pinInput.value = "";
             }
         }
 
         function getPassword() {
-            // Replace this with the link to where users can find the password (Telegram, Website, etc.)
-            window.open("https://t.me/your_telegram_channel", "_blank");
+            // REPLACE THIS LINK with the actual link to your password.html
+            window.open("https://giiithub1-pixel.github.io/MY-APPS/sktech/password.html", "_blank");
         }
     </script>
-
 </body>
 </html>
