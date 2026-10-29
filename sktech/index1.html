@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ASL Sports Lock</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { 
+            background: #0f172a; 
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
+            color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; 
+        }
+        .card { 
+            background: #1e293b; 
+            padding: 40px 30px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        .icon {
+            width: 60px; height: 60px; margin: 0 auto 20px; border-radius: 16px;
+            background: linear-gradient(135deg, #FF5A00, #ff8a00);
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 10px 20px rgba(255, 90, 0, 0.3);
+        }
+        .icon svg { width: 30px; height: 30px; fill: #fff; }
+        .header h2 { font-size: 28px; font-weight: 800; color: #f8fafc; letter-spacing: 1px; }
+        .header h2 span { color: #FF5A00; }
+        .header p { color: #94a3b8; font-size: 15px; margin: 8px 0 30px; }
+        
+        .input-group { margin-bottom: 25px; position: relative; }
+        input[type="password"] { 
+            width: 100%; padding: 18px; font-size: 28px; font-weight: bold; text-align: center; 
+            letter-spacing: 15px; border-radius: 16px; border: 2px solid #334155; 
+            background: #0f172a; color: #fff; outline: none; transition: all 0.3s ease; 
+        }
+        input[type="password"]:focus { border-color: #FF5A00; box-shadow: 0 0 0 4px rgba(255, 90, 0, 0.15); }
+        input[type="password"]::placeholder { color: #475569; letter-spacing: 10px; }
+        
+        .btn { 
+            width: 100%; padding: 18px; font-weight: 700; font-size: 16px; border: none; 
+            border-radius: 16px; cursor: pointer; margin-bottom: 15px; transition: all 0.2s ease; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn-primary { 
+            background: linear-gradient(135deg, #FF5A00, #ff8a00); color: #fff; 
+            box-shadow: 0 10px 25px rgba(255, 90, 0, 0.4);
+        }
+        .btn-primary:hover { filter: brightness(1.1); }
+        .btn-secondary { background: #334155; color: #f1f5f9; }
+        .btn-secondary:hover { background: #475569; }
+        
+        .error-msg { color: #ef4444; font-size: 14px; margin-top: 12px; font-weight: 600; display: none; }
+        .shake { animation: shake 0.4s; border-color: #ef4444 !important; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3z"/></svg>
+        </div>
+        <div class="header">
+            <h2>ASL <span>SPORTS</span></h2>
+            <p>Enter today's security PIN to unlock</p>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="pinInput" placeholder="••••" maxlength="4" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" autofocus>
+            <div id="errorText" class="error-msg">Incorrect PIN! Please try again.</div>
+        </div>
+
+        <button class="btn btn-primary" onclick="verifyPassword()">Unlock App</button>
+        <button class="btn btn-secondary" onclick="getPassword()">Get Today's Password</button>
+    </div>
+
+    <script>
+        function generateDailyPIN() {
+            const d = new Date();
+            const year = d.getFullYear(), month = d.getMonth() + 1, day = d.getDate();
+            const hash = (year * 31 + month * 12 + day * 47) * 839;
+            return ((hash % 9000) + 1000).toString(); 
+        }
+
+        function verifyPassword() {
+            const pinInput = document.getElementById("pinInput");
+            const errorText = document.getElementById("errorText");
+            
+            if (pinInput.value === generateDailyPIN()) {
+                window.location.href = "app://unlock"; 
+            } else {
+                errorText.style.display = "block";
+                pinInput.classList.add("shake");
+                setTimeout(() => pinInput.classList.remove("shake"), 400);
+                pinInput.value = "";
+            }
+        }
+
+        function getPassword() {
+            const todayPin = generateDailyPIN();
+            // CHANGE THIS TO YOUR ACTUAL WEBSITE URL
+            const targetUrl = "https://vplink.in/st?api=39fb8caa4ade98f7b57451bd382b97e74427869e&url=https://giiithub1-pixel.github.io/MY-APPS/sktech/password.html?password=" + todayPin;
+            window.location.href = targetUrl;
+        }
+    </script>
+</body>
+</html>
